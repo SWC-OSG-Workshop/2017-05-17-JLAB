@@ -95,35 +95,35 @@ we load a variety of job templates that cover basic usage, specific use cases, a
 
 <h3> Software Applications </h3>
 
-We will be submitting jobs to the OSG through HCC's Crane login node.
-Log in to Crane (HCC machine) with secure shell  
+We will be submitting jobs to the OSG through the OSG Connect login node.
+Log in with secure shell  
 
 ~~~
-$ ssh username@crane.unl.edu
-~~~
-
-
-The first step in using the module command is to initialize the OSG module system.  This 
-step consists of sourcing a file that switches from the built-in HCC module environment to the OSG module environment.  Source the file as follows:
-
-~~~
-$ source osg_oasis_init
+$ ssh username@login.osgconnect.net
 ~~~
 
 
-Once the distributed environment modules system is initialized, you can check the 
+
+Once you are logged in, you can check the 
 available modules: 
 
 ~~~
 $ module avail
  
+
+-------- /cvmfs/oasis.opensciencegrid.org/osg/modules/modulefiles/Core ---------
+   ANTS/1.9.4                  lapack/3.5.0
+   ANTS/2.1.0           (D)    lapack/3.6.1              (D)
+   MUMmer3.23/3.23             libXpm/3.5.10
+   OpenBUGS/3.2.3              libgfortran/4.4.7
+   OpenBUGS-3.2.3/3.2.3        libtiff/4.0.4
+   R/3.1.1              (D)    llvm/3.6
+   R/3.2.0                     llvm/3.7
+   R/3.2.1                     llvm/3.8.0                (D)
  
---------------------------- /cvmfs/oasis.opensciencegrid.org/osg/modules/modulefiles/Core ----------------------------
-   atlas      fftw/fftw-3.3.4-gromacs    lapack              lmod/5.6.2 (D)    python/3.4
-   blast      gromacs/4.6.5              lmod/SiteHook       namd/2.9          settarg/5.6.2
-   blender    jpeg                       lmod/SitePackage    python/2.7 (D)
- 
-  Where:
+[...]
+
+ Where:
    (D):  Default Module
  
 Use "module spider" to find all possible modules.
