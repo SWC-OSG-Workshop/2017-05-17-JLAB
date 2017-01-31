@@ -136,7 +136,7 @@ previously.  To copy directories using `scp`, you'll just pass the `-r` option t
 it.  E.g:
 
 ~~~
-$ scp -r username@crane.unl.edu:~/stash/my_directory .
+$ scp -r username@login.osgconnect.net:~/stash/my_directory .
 ~~~
 
 > #### Challenges
