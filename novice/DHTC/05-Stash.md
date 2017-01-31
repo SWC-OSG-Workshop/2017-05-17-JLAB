@@ -11,7 +11,7 @@ title: Data storage and transfer
 
 
 <h2> Overview </h2>
-In this lesson, we will learn the basics of data storage and transfer for DHTC jobs and on Crane. 
+In this lesson, we will learn the basics of data storage and transfer for DHTC jobs and on OSG Connect. 
 
 <h2>Introduction to Data Handling for DHTC jobs</h2>
 Data handling is one of the trickiest parts of effectively using DHTC computing.
@@ -84,29 +84,29 @@ This use case is essentially just a combination of the prior two use cases.  As
 such, inputs can be handled using a web server or OASIS and transferring outputs
 will probably need some discussion with us to determine the best solution.
 
-<h2>Intial setup on Crane</h2>
+<h2>Exploring the Stash system</h2>
 
-First, do some initial setup on Crane to faciliate some of the later 
-exercises. You'll need to log in to Crane:
+First, we'll look at accessing Stash from the login node.  You'll need to log in to OSG Connect:
 
 ~~~
-ssh username@crane.unl.edu #Connect to the login node with your username
+ssh username@login.osgconnect.net #Connect to the login node with your username
 passwd:       # your password
 ~~~
 
-Once done, create a directory to work in
+Once done, you can change to the `stash` directory in your home area:
 
 ~~~
-$ mkdir ~/transfer    
-$ cd ~/transfer    
+$ cd ~/stash    
 ~~~
 
-This directory is will serve as an area to create files and directories that
-we'll try to transfer from Crane to your laptop and vice versa.
+This directory is an area on Stash that you can use to store files and
+directories.  It functions just like any other UNIX directory although it has
+additional functions that we'll go over shortly.
 
-For future use, let's create a file:
+For future use, let's create a file in Stash:
 
 ~~~
+$ cd ~/stash
 $ echo "Hello world" > my_hello_world
 ~~~
 
@@ -116,30 +116,19 @@ In addition, let's create a directory as well for future use:
 $ mkdir my_directory
 ~~~
 
-Also, note that there is a separate space that should be used for I/O intensive
-tasks at `/work/<group>/<username>`.
 
-<h2>Transferring files to and from Crane using SCP (Windows)</h2>
-Unlike with OS X or Linux/Unix systems, Windows doesn't come with scp installed
-by default.  Instead, we will use an application called WinSCP that provides a
-GUI interface for scp. The procedure to login to Crane using WinSCP can be found 
-[here](https://hcc-docs.unl.edu/display/HCCDOC/For+Windows+Users).  Note, that
-rather than using `tusker.unl.edu` as the hostname, you should use
-`crane.unl.edu`.
+<h2>Transferring files to and from Stash using SCP </h2> 
 
-<h2>Transferring files to and from Crane using SCP (OS X or Linux/Unix)</h2> 
-
-We can transfer files to Crane using `scp`. First, let's 
-look at transferring files using `scp`.  `Scp` is a counterpart to ssh that allows for
+We can transfer files to Stash using `scp`.  `Scp` is a counterpart to ssh that allows for
 secure, encrypted file transfers between systems using your ssh credentials.    
 
-To transfer a file from Crane using `scp`, you'll need to run `scp` with the
+To transfer a file from Stash using `scp`, you'll need to run `scp` with the
 source and destination.  Files on remote systems are indicated using
-user@machine:/path/to/file .  Let's copy the file we just created from Crane to
+user@machine:/path/to/file .  Let's copy the file we just created from Stash to
 our local system:
 
 ~~~
-$ scp username@crane.unl.edu:~/transfer/my_hello_world .
+$ scp username@login.osgconnect.net:~/stash/my_hello_world .
 ~~~
 
 As you can see, `scp` uses similar syntax to the `cp` command that you were shown
@@ -147,16 +136,16 @@ previously.  To copy directories using `scp`, you'll just pass the `-r` option t
 it.  E.g:
 
 ~~~
-$ scp -r username@crane.unl.edu:~/transfer/my_directory .
+$ scp -r username@crane.unl.edu:~/stash/my_directory .
 ~~~
 
 > #### Challenges
 >
-> * Create a directory with a file called `hello_world_2` in the `~/transfer` directory and copy it from Crane to your local system.
-> * Create a directory called `hello_world_3` on your local system and copy it to the `transfer` directory.
+> * Create a directory with a file called `hello_world_2` in the `~/stash` directory and copy it from Stash to your local system.
+> * Create a directory called `hello_world_3` on your local system and copy it to the `stash` directory.
 
-<h2>Transferring files to and from Crane using Globus</h2>
-An alternate method for accessing your files on Crane is to use Globus.  Globus allows you
+<h2>Transferring files to and from Stash using Globus</h2>
+An alternate method for accessing Stash is to use Globus.  Globus allows you
 to initiate transfers between Globus endpoints and will handle the actual file
 and directory transfers transparently without needing further input from you.
 When the transfer is complete, Globus will send a notification to you indicating
@@ -186,29 +175,28 @@ Now go to [Globus](https://www.globus.org/app/transfer).
 For the first endpoint, enter username#name
 where name is the name you choose for the endpoint above. You should now see the
 files from your laptop displayed.  For the second endpoint, enter
-`hcc#crane` and hit enter.  You should now see the contents of your home
-directory on Crane.  Now double click on the `transfer` directory.  Select a
+`connect#stash` and hit enter.  You should now see the contents of your home
+directory on OSG Connect.  Now double click on the `data` directory.  Select a
 file on your laptop and click on the right arrow on the top of the screen to
-start a transfer to Crane. You can transfer files or directories to your
-laptop by selecting it in the Crane window and selecting the left arrow.
+start a transfer to Stash. You can transfer files or directories to your
+laptop by selecting it in the Stash window and selecting the left arrow.
 
 > #### Challenges 
 >
-> * Copy a file to Crane from your laptop using Globus.  
-> * Next copy the `my_hello_world` file from Crane to your laptop using Globus.
+> * Copy a file to Stash from your laptop using Globus.  
+> * Next copy the `my_hello_world` file from Stash to your laptop using Globus.
 
 <h2>Putting it all together</h2>
 
 Let us do an example calculation to give us a taste of a what a typical
 job may involve. We will peform a  molecular dynamics simulation of a
 small protein in implicit water. To get the necessary files, we use the *tutorial*
-command on Crane. 
+command on OSG. 
 
-Log in to Crane and setup the tutorial command:
+Log in to OSG Connect:
 
 ~~~
-$ ssh username@crane.unl.edu
-$ source osg_oasis_init
+$ ssh username@login.osgconnect.net
 ~~~
 
 Type:
@@ -254,7 +242,7 @@ the input configuration for the NAMD simulations.
 > #### Challenges
 >
 > * You can find the missing files at [here](https://stash.osgconnect.net/+sthapa/tutorial-namd), 
-    download the files from that website and upload it to the tutorial-namd file on Crane.
+    download the files from that website and upload it to the tutorial-namd file on OSG Connect.
 
 Now submit the NAMD job. 
 
@@ -287,6 +275,6 @@ The above lines indicate the NAMD simulation was successful.
 <div class="keypoints" markdown="1">
 
 #### Key Points
-* Data can be transferred in and out of Crane using scp and Globus
+* Data can be transferred in and out of Stash using scp and Globus
 </div>
 
