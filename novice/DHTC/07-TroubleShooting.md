@@ -30,16 +30,8 @@ Let's try looking at  an example. First we'll need to login as usual, and then
 load the tutorial *error101*.
 
 ~~~
-$ ssh username@crane.unl.edu
+$ ssh username@login.osgconnect.net
 ~~~
-
-Next  setup our environment, if we haven't done so yet:
-
-~~~
-$ source osg_oasis_init
-~~~
-
-Finally, let's load the tutorial:
 
 ~~~
 $ tutorial error101
@@ -55,10 +47,10 @@ condor_q username
 
 For some reason, our job is still idle. Why? Try using `condor_q -better-analyze` 
 to find out. Remember that you will also need to specify a pool name. In this case 
-we'll use `glidein.unl.edu`:
+we'll use `osg-flock.grid.iu.edu`:
 
 ~~~
-$ condor_q -better-analyze JOB-ID -pool glidein.unl.edu
+$ condor_q -better-analyze JOB-ID -pool osg-flock.grid.iu.edu
  
 # Produces a long ouput. 
 # The following lines are part of the output regarding the job requirements.  
@@ -75,7 +67,7 @@ Suggestions:
 2   ( TARGET.Arch == "X86_64" )       94
 3   ( TARGET.OpSys == "LINUX" )       94
 4   ( TARGET.Disk >= 1 )              94
-5   ( ( TARGET.HasFileTransfer ) || ( TARGET.FileSystemDomain == "login.crane.hcc.unl.edu" ) )
+5   ( ( TARGET.HasFileTransfer ) || ( TARGET.FileSystemDomain == "login.osgconnect.net" ) )
 
 ~~~
 
@@ -104,7 +96,7 @@ $ condor_submit error101_job.submit
 > ### On your own
 > * Edit `error101_job.submit`, add a `Requirements` line with `Requirements = OSGVO_OS_STRING == "RHEL 8"` before the `queue` statement. <br/>
 > *  Use `condor_q -better-analyze` against the pool. Does it match any slots? If so, where?
-> *  How about RHEL 6? Hint: you can explora a pool with condor_status' -constraint flag. For example: `condor_status -pool glidein.unl.edu -constraint 'OSGVO_OS_STRING == "RHEL 6"'`
+> *  How about RHEL 6? Hint: you can explora a pool with condor_status' -constraint flag. For example: `condor_status -pool osg-flock.grid.iu.edu -constraint 'OSGVO_OS_STRING == "RHEL 6"'`
 
 <br/>
 <br/>
@@ -142,10 +134,11 @@ However, when the job executed, it went into Held state:
 
 ~~~
 $ condor_q -analyze 372993.0
--- Submitter: login.crane.hcc.unl.edu : <129.93.227.113:9619?noUDP&sock=205992_4558_3> : login.crane.hcc.unl.edu
+-- Submitter: login01.osgconnect.net : <192.170.227.195:56174> : login01.osgconnect.net
 ---
 372993.000:  Request is held.
 Hold reason: Error from glidein_9371@compute-6-28.tier2: STARTER at 10.3.11.39 failed to send file(s) to <192.170.227.195:40485>: error reading from /wntmp/condor/compute-6-28/execute/dir_9368/glide_J6I1HT/execute/dir_16393/outputfile: (errno 2) No such file or directory; SHADOW failed to receive file(s) from <192.84.86.100:50805>
+
 ~~~
 
 Let's break down this error message piece by piece:
@@ -154,13 +147,13 @@ Let's break down this error message piece by piece:
 Hold reason: Error from glidein_9371@compute-6-28.tier2: STARTER at 10.3.11.39 failed to send file(s) to <192.170.227.195:40485>
 ~~~
 
-This part is quite cryptic, but it simply means that the worker node where your job executed (glidein_9371@compute-6-28.tier2 or 10.3.11.39) tried to transfer a file to the Crane login node (192.170.227.195) but did not succeed. The next part explains why:
+This part is quite cryptic, but it simply means that the worker node where your job executed (glidein_9371@compute-6-28.tier2 or 10.3.11.39) tried to transfer a file to the OSG Connect login node (192.170.227.195) but did not succeed. The next part explains why:
 
 ~~~
 error reading from /wntmp/condor/compute-6-28/execute/dir_9368/glide_J6I1HT/execute/dir_16393/outputfile: (errno 2) No such file or directory
 ~~~
 
-This bit has the full path of the file that Condor tried to transfer back to `crane.unl.edu`. The reason why the file transfer failed is because `outputfile` was never created on the worker node. Remember that at the beginning we said that the user specifically requested `transfer_outputfiles = outputfile`! Condor could not complete this request, and so the job went into Held state instead of finishing normally.
+This bit has the full path of the file that Condor tried to transfer back to `login01.osgconnect.net`. The reason why the file transfer failed is because `outputfile` was never created on the worker node. Remember that at the beginning we said that the user specifically requested `transfer_outputfiles = outputfile`! Condor could not complete this request, and so the job went into Held state instead of finishing normally.
 
 It's quite possible that the error was simply transient, and if we retry, the job will succeed. We can re-queue a job that is in Held state by using `condor_release`: 
 
