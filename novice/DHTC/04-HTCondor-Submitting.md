@@ -1,7 +1,7 @@
 ---
 layout: lesson
 root: ../..
-title: Job submission on HCC OSG HTCondor Pool
+title: Job submission on OSG Connect
 ---
 <div class="objectives" markdown="1">
 
@@ -12,32 +12,19 @@ title: Job submission on HCC OSG HTCondor Pool
 
 <h2>Overview</h2> In this section, we will learn the basics of HTCondor
 in submitting and monitoring workloads, or "jobs". The jobs are
-submitted through the login node of Crane. The submitted jobs are
+submitted through the login node of OSG Connect. The submitted jobs are
 executed on the remote worker node(s) and the outputs are transfered
 back to the login node. In the HTCondor job submit file, we have to
 describe how to execute the program and transfer the output data.
 
-Note that even though we use the submit node of Crane, we are not
-going to use the default scheduler for Crane, and thus not use the
-rest of the cluster.
 
-For more information, see the [HCC OSG HTCondor Documentation](https://hcc-docs.unl.edu/display/HCCDOC/HTCondor+on+the+OSG)
+<h2>Login to OSG Connect</h2>
 
-<h2>Login to Crane</h2>
-
-First, we log in to Crane:
+First, we log in to OSG Connect:
 
 ~~~
-$ ssh username@crane.unl.edu    # username is your username
-password:                       # enter your password
-~~~
-
-You will be requested to verify the login with [Duo](https://hcc-docs.unl.edu/display/HCCDOC/Setting+up+and+using+Duo)
-
-To get the OSG environment loaded, run:
-
-~~~
-$ source osg_oasis_init
+$ ssh username@login.osgconnect.net    # username is your username
+password:                              # enter your password
 ~~~
 
 We will get our example files for all today's lessons using `tutorial`.
@@ -45,7 +32,6 @@ We will get our example files for all today's lessons using `tutorial`.
 Let's get started with the *quickstart* tutorial:
 
 ~~~
-$ cd $WORK
 $ tutorial quickstart       # creates a directory "tutorial-quickstart"
 $ cd tutorial-quickstart    # script and input files are inside this directory
 ~~~
@@ -96,13 +82,18 @@ $ ./short.sh
 ~~~
 
 ~~~
-Start time: Tue Dec 22 13:15:20 CST 2015
-Job is running on node: login.crane.hcc.unl.edu
-Job running as user: uid=1838(rynge) gid=11156(bockelman) groups=11156(bockelman)
-Job is running in directory: /home/bockelman/rynge/tutorial-quickstart
+Start time: Wed Aug 21 09:21:35 CDT 2013
+
+Job is running on node: login01.osgconnect.net
+
+Job running as user: uid=54161(username) gid=1000(users) groups=1000(users),0(root),1001(osg-connect),1002(osg-staff),1003(osg-connect-test),9948(staff),19012(osgconnect)
+
+Job is running in directory: /home/username/tutorial-quickstart
 
 Working hard...
+
 Science complete!
+
 ~~~
 
 ##Job submission file##
@@ -155,7 +146,7 @@ jobs by adding your own username to the command.
 
 ~~~
 $ condor_q username
--- Submitter: crane.unl.edu : <128.135.158.173:43606> : crane.unl.edu
+-- Submitter: login01.osgconnect.net : <128.135.158.173:43606> : login01.osgconnect.net
  ID      OWNER            SUBMITTED     RUN_TIME ST PRI SIZE CMD
  823.0   username           8/21 09:46   0+00:00:06 R  0   0.0  short.sh
 1 jobs; 0 completed, 0 removed, 0 idle, 1 running, 0 held, 0 suspended
@@ -167,7 +158,7 @@ cluster -- the number that `condor_submit` gave you.
 
 ~~~
 $ condor_q 823
--- Submitter: crane.unl.edu : <128.135.158.173:43606> : crane.unl.edu
+-- Submitter: login01.osgconnect.net : <128.135.158.173:43606> : login01.osgconnect.net
  ID      OWNER            SUBMITTED     RUN_TIME ST PRI SIZE CMD
  823.0   username           8/21 09:46   0+00:00:10 R  0   0.0  short.sh
 1 jobs; 0 completed, 0 removed, 0 idle, 1 running, 0 held, 0 suspended
@@ -188,7 +179,7 @@ not appear in condor_q.
 You may sometimes see jobs in **H** state.  These are _held_ jobs. Held
 jobs are stalled, usually for a specific reason, and won't progress until
 released.  Until you gain savvy with diagnosing why a job is held and
-solving it on your own, you may contact the HCC support team for help
+solving it on your own, you may contact the OSG support team for help
 with held jobs.
 
 Let's wait for your job to finish – that is, for condor_q not to show
@@ -242,10 +233,10 @@ Read the output file. It should be something like this:
 
 ~~~
 $ cat job.output
-Start time: Thu Feb 19 15:11:43 EST 2015
-Job is running on node: VPA-WH505-01-S4-its-u12-nfs-20141003
-Job running as user: uid=1066(osgconnect) gid=502(condoruser) groups=502(condoruser),108(fuse)
-Job is running in directory: /tmp/rcc_syracuse/rcc.9jiqjUmxeB/execute.10.5.30.6-1128/dir_1380
+Start time: Wed Aug 21 09:46:38 CDT 2013
+Job is running on node: appcloud01
+Job running as user: uid=58704(osg) gid=58704(osg) groups=58704(osg)
+Job is running in directory: /var/lib/condor/execute/dir_2120
 
 Working hard...
 Science complete!
@@ -306,9 +297,9 @@ process, first we get a name for one of the machines, and then we ask
 condor_status to give us the details for that machine (-long).
 
 ~~~
-$ condor_status -pool glidein.unl.edu -af Name | head -n 1
+$ condor_status -pool osg-flock.grid.iu.edu -af Name | head -n 1
 [resource name]
-$ condor_status -long -pool glidein.unl.edu [resource name] | sort
+$ condor_status -long -pool osg-flock.grid.iu.edu [resource name] | sort
 HAS_FILE_usr_lib64_libgfortran_so_3 = true
 HAS_MODULES = false
 OSGVO_OS_STRING = "RHEL 6"
