@@ -1,7 +1,7 @@
 ---
 layout: lesson
 root: ../..
-title: Job submission on OSG Connect
+title: Job Scheduling with HTCondor
 ---
 <div class="objectives" markdown="1">
 
@@ -12,18 +12,23 @@ title: Job submission on OSG Connect
 
 <h2>Overview</h2> In this section, we will learn the basics of HTCondor
 in submitting and monitoring workloads, or "jobs". The jobs are
-submitted through the login node of OSG Connect. The submitted jobs are
+submitted through the submit host. The submitted jobs are
 executed on the remote worker node(s) and the outputs are transfered
 back to the login node. In the HTCondor job submit file, we have to
 describe how to execute the program and transfer the output data.
 
 
-<h2>Login to OSG Connect</h2>
+![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-quickstart/master/Images/jobSubmit.png)
 
-First, we log in to OSG Connect:
 
-~~~
-$ ssh username@login.osgconnect.net    # username is your username
+
+<h2>Login to Submit Host</h2>
+
+First, we log in to the submit host:
+
+
+~~~shell_session
+ssh username@training.osgconnect.net   # username is your username
 password:                              # enter your password
 ~~~
 
@@ -31,25 +36,24 @@ We will get our example files for all today's lessons using `tutorial`.
 
 Let's get started with the *quickstart* tutorial:
 
-~~~
+~~~shell_session
 $ tutorial quickstart       # creates a directory "tutorial-quickstart"
 $ cd tutorial-quickstart    # script and input files are inside this directory
 ~~~
 
 We will look at two files in detail: "short.sh" and "tutorial01.submit"
 
-##Job execution script##
+## Job execution script ##
 
 Inside the tutorial directory, open up `short.sh` in an editor.
 
-~~~
+~~~shell_session
 $ nano short.sh
 ~~~
 
-This is a shell script, quite ordinary and much like the ones we worked
-with in Unit I.
+This is a shell script, quite ordinary.
 
-~~~
+~~~shell
 #!/bin/bash
 # short.sh: a short discovery job
 printf "Start time: "; /bin/date
@@ -58,7 +62,7 @@ printf "Job running as user: "; /usr/bin/id
 printf "Job is running in directory: "; /bin/pwd
 echo
 echo "Working hard..."
-sleep ${1-15}
+sleep 20
 echo "Science complete!"
 ~~~
 
@@ -66,7 +70,7 @@ To close nano, hold down Ctrl and press X. Press Y to save, and then
 Enter Now, make the script executable.  Recall that this is not
 necessary for shell programs that you create and run locally.  However,
 _it is extremely important for jobs running on the grid_.  So is the
-"shbang" line (`#!/bin/sh`).
+"shbang" line (`#!/bin/bash`).
 
 ~~~
 $ chmod +x short.sh
@@ -82,21 +86,18 @@ $ ./short.sh
 ~~~
 
 ~~~
-Start time: Wed Aug 21 09:21:35 CDT 2013
-
-Job is running on node: login01.osgconnect.net
-
-Job running as user: uid=54161(username) gid=1000(users) groups=1000(users),0(root),1001(osg-connect),1002(osg-staff),1003(osg-connect-test),9948(staff),19012(osgconnect)
-
-Job is running in directory: /home/username/tutorial-quickstart
+Start time: Mon Mar  6 00:08:06 CST 2017
+Job is running on node: training.osgconnect.net
+Job running as user: uid=46628(username) gid=46628(username) groups=46628(username),400(condor),401(ciconnect-staff),1000(users)
+Job is running in directory: /tmp/Test/tutorial-quickstart
 
 Working hard...
-
 Science complete!
 
 ~~~
 
-##Job submission file##
+## Job description file ##
+
 So far, so good! Next we will create a simple (if verbose) HTCondor
 submit file.  A submit file tells the grid software _how_ to run
 your workload, with what properties and arguments, and how to collect
@@ -135,10 +136,10 @@ Submit the job using `condor_submit`.
 ~~~
 $ condor_submit tutorial01.submit
 Submitting job(s).
-1 job(s) submitted to cluster 823.
+1 job(s) submitted to cluster 1144.
 ~~~
 
-##Job status##
+## Job status ##
 
 Your first job is on the grid! The `condor_q` command tells the status of
 currently running jobs. Generally you will want to limit it to your own
@@ -146,21 +147,24 @@ jobs by adding your own username to the command.
 
 ~~~
 $ condor_q username
--- Submitter: login01.osgconnect.net : <128.135.158.173:43606> : login01.osgconnect.net
+
+-- Schedd: training.osgconnect.net : <192.170.227.119:9419?...
  ID      OWNER            SUBMITTED     RUN_TIME ST PRI SIZE CMD
- 823.0   username           8/21 09:46   0+00:00:06 R  0   0.0  short.sh
-1 jobs; 0 completed, 0 removed, 0 idle, 1 running, 0 held, 0 suspended
+1144.0   username       3/6  00:17   0+00:00:00 I  0   0.0  short.sh
+
+1 jobs; 0 completed, 0 removed, 1 idle, 0 running, 0 held, 0 suspended
 ~~~
 
-If you want to see all jobs running on the system, use condor_q without
+If you want to see all jobs running on the system, use `condor_q` without
 any extra parameters.  You can also get status on a specific job
 cluster -- the number that `condor_submit` gave you.
 
 ~~~
-$ condor_q 823
--- Submitter: login01.osgconnect.net : <128.135.158.173:43606> : login01.osgconnect.net
+$ condor_q 1144.0
+-- Schedd: training.osgconnect.net : <192.170.227.119:9419?...
  ID      OWNER            SUBMITTED     RUN_TIME ST PRI SIZE CMD
- 823.0   username           8/21 09:46   0+00:00:10 R  0   0.0  short.sh
+1144.0   username       3/6  00:17   0+00:00:07 R  0   0.0  short.sh
+
 1 jobs; 0 completed, 0 removed, 0 idle, 1 running, 0 held, 0 suspended
 ~~~
 
@@ -168,7 +172,7 @@ A _job cluster_ identifies one batch of jobs.  The batch could have one job
 or ten thousand in it -- what matters is that each time a submit file says
 "Queue", you get a cluster.  The individual jobs within a job cluster are
 identified by the numbers after the dot in the job ID -- so in this example,
-823 is the job cluster, and 823.0 is the job ID (or jobid) of job 0 in that
+1144 is the job cluster, and 1144.0 is the job ID (or jobid) of job 0 in that
 cluster.
 
 Note the ST (state) column. Your job will be in the **I** state (idle)
@@ -198,28 +202,29 @@ job has probably already completed by now, so submit a new one first:
 ~~~
 $ condor_submit tutorial01.submit
 Submitting job(s).
-1 job(s) submitted to cluster 823
+1 job(s) submitted to cluster 1145
 $ watch -n 5 "condor_q $USER 2>/dev/null"
 ~~~
 
 When your job has completed, it will disappear from the list.  To close
 `watch`, press control-C -- hold down Control and press C.
 
-##Job history##
+## Job history ##
+
 Once your job has finished, you can get information about its execution
 from the `condor_history` command:
 
 ~~~
-$ condor_history 823
- ID      OWNER            SUBMITTED     RUN_TIME ST   COMPLETED CMD
- 823.0   username            8/21 09:46   0+00:00:12 C   8/21 09:46 /home/username/
+$ condor_history 1144
+ID     OWNER          SUBMITTED   RUN_TIME     ST COMPLETED   CMD            
+1144.0   osguser50       3/6  00:17   0+00:00:27 C   3/6  00:28 /share/training/..
 ~~~
 
 You can see much more information about your job's final status using
 the -long option.
 
 
-##Job output##
+## Job output ##
 
 Once your job has finished, you can look at the files that HTCondor
 has returned to the working directory. If everything was successful,
@@ -233,10 +238,10 @@ Read the output file. It should be something like this:
 
 ~~~
 $ cat job.output
-Start time: Wed Aug 21 09:46:38 CDT 2013
-Job is running on node: appcloud01
-Job running as user: uid=58704(osg) gid=58704(osg) groups=58704(osg)
-Job is running in directory: /var/lib/condor/execute/dir_2120
+Start time: Wed Mar  8 18:16:04 CST 2017
+Job is running on node: cmswn2300.fnal.gov
+Job running as user: uid=12740(osg) gid=9652(osg) groups=9652(osg)
+Job is running in directory: /storage/local/data1/condor/execute/dir_2031614/glide_6B4s2O/execute/dir_887949
 
 Working hard...
 Science complete!
@@ -252,9 +257,9 @@ is `condor_rm`, and it takes only one argument: the job cluster or job ID.
 ~~~
 $ condor_submit tutorial01.submit
 Submitting job(s).
-1 job(s) submitted to cluster 829
-$ condor_rm 829
-Cluster 829 has been marked for removal.
+1 job(s) submitted to cluster 1145 
+$ condor_rm 1145
+Cluster 1145 has been marked for removal.
 ~~~
 
 Sometimes it is useful to remove all your jobs. You can do that by specifying your username
@@ -263,7 +268,7 @@ as argument for condor_rm:
 ~~~
 $ condor_submit tutorial01.submit
 Submitting job(s).
-1 job(s) submitted to cluster 829
+1 job(s) submitted to cluster 1146
 $ condor_rm username
 All jobs of user "username" have been marked for removal
 ~~~
@@ -357,7 +362,7 @@ You can test this job by submitting and monitoring it as we have just covered:
 ~~~
 $ condor_submit osg-template-job.submit
 Submitting job(s).
-1 job(s) submitted to cluster 830
+1 job(s) submitted to cluster 1151
 ~~~
 
 The filenames for this job includes a job id, which means that if you submit more
@@ -365,8 +370,8 @@ than one job, they will all have unique outputs.
 
 ~~~
 $ ls *.output
-job.830.0.output
-job.831.0.output
+job.1151.0.output
+job.1152.0.output
 ~~~
 
 
