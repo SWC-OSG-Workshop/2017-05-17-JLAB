@@ -1,3 +1,5 @@
+https://swc-osg-workshop.github.io/2017-05-17-JLAB
+
 ============================
 #Software Carpentry - Open Science Grid (SWC-OSG) Workshop#
 ============================
