@@ -322,6 +322,6 @@ You are now ready to submit the jobs:
 <div class="keypoints" markdown="1">
 
 #### Key Points
-* Data can be transferred in and out of Stash using scp. If you have permanent OSG Connect account, Globus may be used (not covered here).
+* Data can be transferred in and out of Stash using scp and Globus
 </div>
 
