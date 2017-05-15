@@ -44,7 +44,7 @@ Please consider the following guidelines:
 <li>   Software should preferably be single threaded, using less than 2 GB memory and 
     each invocation should run for 1-12 hours (optimally under 3 hours). There is 
     some support for jobs with longer run time, more memory or multi-threaded codes. 
-    Please contact the user support at [user-support@opensciencegrid.org](mailto:user-support@opensciencegrid.org) for more information about these 
+    Please contact the user support listed below for more information about these 
     capabilities.</li>
 <li>   Only core utilities can be expected on the remote end. There are no standard 
     versions of software such as 'gcc', 'python', 'BLAS' or others on the grid. 
