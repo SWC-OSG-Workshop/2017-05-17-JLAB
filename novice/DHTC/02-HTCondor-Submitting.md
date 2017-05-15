@@ -64,7 +64,7 @@ $ chmod +x short.sh
 ~~~
 
 Since we used the tutorial command, all files are already in your workspace. Run 
-the job locally when setting up a new job type, it is important to test your 
+the job locally when setting up a new job type, it is good to test your 
 job outside of HTCondor before submitting into the Open Science Grid. 
 
 ~~~
