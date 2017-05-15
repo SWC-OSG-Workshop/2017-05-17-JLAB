@@ -15,14 +15,13 @@ title: Introduction to Open Science Grid
 
 ## Introduction to Open Science Grid (OSG)  
 
-The Open Science Grid (OSG) is a consortium of research communities which facilitates distributed [high throughput computing](http://en.wikipedia.org/wiki/High-throughput_computing) for scientific research. The [Open Science Grid (OSG)](https://docs.google.com/presentation/d/1QGNxBXFcFJ4SkP3nhywtpYRx8kC0C6j5NTP_ZuVx4Qw/edit?usp=sharing)
-<ul> 
+The Open Science Grid (OSG) is a consortium of research communities which facilitates distributed [high throughput computing](http://en.wikipedia.org/wiki/High-throughput_computing) for scientific research. The Open Science Grid (OSG)
 <li> Enables distributed computing on more than 120 institutions, </li>
 <li> Supports efficient data processing and  </li>
 <li> Provides large scale scientific computing of 2 million core CPU hours per day.   </li>
 </ul> 
 
-The Open Science Grid consists of computing and storage elements at over 100 individual sites spanning the United States. These sites are primarily at universities and national labs. They range in size from a few hundred to tens of thousands of CPU cores. The unused compute resources at the various OSG contributors are aggregated in a shared pool and made available to the users opportunistically. This means that resource availability may vary greatly with time. 
+The Open Science Grid consists of computing and storage elements at over 100 individual sites spanning the United States (for additional detail and geographic distribution of sites, check the [introduction to OSG slides](https://docs.google.com/presentation/d/1QGNxBXFcFJ4SkP3nhywtpYRx8kC0C6j5NTP_ZuVx4Qw/edit?usp=sharing)). These sites are primarily at universities and national labs. They range in size from a few hundred to tens of thousands of CPU cores. The unused compute resources at the various OSG contributors are aggregated in a shared pool and made available to the users opportunistically. This means that resource availability may vary greatly with time. 
 
 
 ## Computation that is a good match for OSG 
