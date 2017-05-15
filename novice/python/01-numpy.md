@@ -562,7 +562,7 @@ last three characters: gen
 
 
 <div class="">
-<p>The mathematician Richard Hamming once said, &quot;The purpose of computing is insight, not numbers,&quot; and the best way to develop insight is often to visualize data. Visualization deserves an entire lecture (or course) of its own, but we can explore a few features of Python's <code>matplotlib</code> here. First, let's tell the IPython Notebook that we want our plots displayed inline, rather than in a separate viewing window:</p>
+<p>The mathematician Richard Hamming once said, &quot;The purpose of computing is insight, not numbers,&quot; and the best way to develop insight is often to visualize data. Visualization deserves an entire lecture (or course) of its own, but we can explore a few features of Python's <code>matplotlib</code> here. First, let's tell the Notebook that we want our plots displayed inline, rather than in a separate viewing window:</p>
 </div>
 
 
