@@ -5,8 +5,9 @@ title: Analyzing Patient Data
 ---
 
 
-**Jupyter Set Up:** We have setup a Jupyterhub instance at https://training.osgconnect.net:8000/ that will be used for the exercises. Login using your training account credentials. 
-**Notebook location:** Go to the `swcarpentry` directory in the browser. There are notebooks for each lesson (01-numpy.ipynb, 02-func.ipynb, 03-loop.ipynb, 04-cond.ipynb, etc.) that you can open to follow along with the lesson and to do the exercises.
+* **Jupyter Set Up:** We have setup a Jupyterhub instance at https://training.osgconnect.net:8000/ that will be used for the exercises. Login using your training account credentials. 
+
+* **Notebook location:** Go to the `swcarpentry` directory in the browser. There are notebooks for each lesson (01-numpy.ipynb, 02-func.ipynb, 03-loop.ipynb, 04-cond.ipynb, etc.) that you can open to follow along with the lesson and to do the exercises.
 
 
 <div class="">
