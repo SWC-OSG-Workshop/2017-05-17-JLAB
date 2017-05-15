@@ -28,9 +28,9 @@ Obtain the example files via the `tutorial` command,
 
 Inside the `tutorial-ScalingUp-Python` directory, all the required files are available. This includes the sample Python program, job description file and executable files. 
 
-<h2> Python script and the optimization function </h2>
+<h2> Python script and the objective function </h2>
 
-Here, we are going to use a brute force approach to finding the minimum/maximum (also known as "optimiziation") of a two dimensional function on a grid of points. Let us take a look at the function (also known as the objective function) that we are trying to optimize:
+Here, we are going to use a brute force approach to find the minimum of a two dimensional function on a grid of points. Let us take a look at the objective function  that we are trying to optimize:
 
     f = (1 - x)**2 + (y - x**2)**2
 
@@ -50,7 +50,7 @@ To run the calculation with the user-supplied boundary values, the script is exe
 
 where `x_low` and `x_high` are low and high values along x-direction, and `y_low` and `y_high` are the low and high values along the y-direction.
 
-For example, to set the boundary in the x-direction as (-3, 3) and the boundary in the y-direction is (-2, 3), run
+For example, to set the boundary in the x-direction as (-3, 3) and the boundary in the y-direction as (-2, 2), run
 
     python rosen_brock_brute_opt.py -3 3 -2 2
     
@@ -215,7 +215,7 @@ In fact, we could define variables and assign them to HTCondor's expression. Thi
     arguments = $(x_low) $(x_high) $(y_low) $(y_high)
 
     # Queue command  
-    queue x_low, x_high, y_low, y_high from (
+    queue x_low x_high y_low y_high from (
     -9 9 -9 9 
     -8 8 -8 8 
     -7 7 -7 7 
