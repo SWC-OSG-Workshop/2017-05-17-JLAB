@@ -417,19 +417,6 @@ the most lines.
 </div>
 
 <div class="challenge" markdown="1">
-If you run the command:
-
-~~~
-history | tail -5 > recent.sh
-~~~
-
-the last command in the file is the `history` command itself, i.e.,
-the shell has added `history` to the command log before actually
-running it. In fact, the shell *always* adds commands to the log
-before running them. Why do you think it does this?
-</div>
-
-<div class="challenge" markdown="1">
 Joel's `data` directory contains three files: `fructose.dat`,
 `glucose.dat`, and `sucrose.dat`. Explain what a script called
 `example.sh` would do when run as `bash example.sh *.dat` if it
@@ -450,7 +437,7 @@ done
 
 ~~~
 # Script 3
-echo $*.dat
+echo $@.dat
 ~~~
 
 </div>
