@@ -431,20 +431,6 @@ Explain why `-n` has this effect.
 </div>
 
 <div class="challenge" markdown="1">
-What is the difference between:
-
-~~~
-wc -l < mydata.dat
-~~~
-
-and:
-
-~~~
-wc -l mydata.dat
-~~~
-</div>
-
-<div class="challenge" markdown="1">
 The command `uniq` removes adjacent duplicated lines from its input.
 For example, if a file `salmon.txt` contains:
 
