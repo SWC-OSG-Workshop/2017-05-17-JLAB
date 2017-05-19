@@ -176,7 +176,7 @@ $ scp -r username@training.osgconnect.net:~/stash/public/my_directory .
 > * Create a directory with a file called `hello_world_2` in the `~/stash/public` directory and copy it from Stash to your local system.
 > * Create a directory called `hello_world_3` on your local system and copy it to the `stash` directory.
 
-<h2>Stash, staschp and stashcache</h2>
+<h2>Stash, stashcp and stashcache</h2>
 
 StashCache is a data service for OSG which transparently caches data
 near compute sites for faster delivery to active grid jobs. The standard
