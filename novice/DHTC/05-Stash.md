@@ -71,7 +71,7 @@ service such as OASIS that will make the reference files available on the
 majority of OSG sites.  Jobs can then access the files as if they are on the
 compute node and only the files that are accessed will be transferred.
 
-Further down we will introduce another solution: StachCache and stashcp.
+Further down we will introduce another solution: StashCache and stashcp.
 
 Since the output files are small (i.e. < ~1GB), using the `transfer_output_files` option
 in your submit file and allowing HTCondor to manage transferring outputs from
